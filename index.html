@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarePassport — Health Identity & Records for Migrant Workers</title>
+    <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Portal Screen -->
+    <div id="login-portal" class="login-portal active">
+        <div class="login-card">
+            <div class="login-logo-header">
+                <i class="fa-solid fa-passport-health"></i>
+                <i class="fa-solid fa-heart-pulse logo-pulse-icon"></i>
+                <h2>CarePassport™</h2>
+                <span>Secure Vitals & Records Portal</span>
+            </div>
+            
+            <div class="login-tabs">
+                <button type="button" class="login-tab active" id="tab-admin" data-role="admin">
+                    <i class="fa-solid fa-user-doctor"></i> Clinic Staff / Admin
+                </button>
+                <button type="button" class="login-tab" id="tab-patient" data-role="patient">
+                    <i class="fa-solid fa-user"></i> Worker (Patient)
+                </button>
+            </div>
+            
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="login-username" id="username-label">Username</label>
+                    <input type="text" id="login-username" required placeholder="Enter username...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter password...">
+                </div>
+                
+                <div id="login-error-msg" class="login-error text-red" style="display:none; margin-top:8px; font-size:12.5px; font-weight:600;">
+                    <i class="fa-solid fa-circle-exclamation"></i> Invalid credentials. Please try again.
+                </div>
+                
+                <button type="submit" class="btn-primary w-full mt-4" style="justify-content:center; height:44px; font-size:14px;">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Login to Portal
+                </button>
+                
+                <div class="login-toggle-link" style="text-align: center; margin-top: 8px; font-size: 13px;">
+                    <a href="#" id="link-show-register" style="color: var(--primary); text-decoration: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <i class="fa-solid fa-user-plus"></i> New worker? Register passport here
+                    </a>
+                </div>
+            </form>
+
+            <!-- Self Registration Form -->
+            <form id="self-register-form" class="login-form" style="display:none; max-height: 380px; overflow-y: auto; padding-right: 4px; gap: 14px;">
+                <div style="font-size: 11.5px; line-height: 1.5; color: var(--text-secondary); background: hsla(210, 15%, 50%, 0.08); border-left: 3px solid var(--primary); padding: 8px 12px; border-radius: 8px; margin-bottom: 4px;">
+                    <i class="fa-solid fa-user-shield"></i> <strong>Note:</strong> Blood Group, Allergies, and Chronic Conditions will be documented directly by the clinic doctor during your visit to maintain authentic medical records.
+                </div>
+                <div class="form-group">
+                    <label for="self-reg-name">Full Name *</label>
+                    <input type="text" id="self-reg-name" required placeholder="e.g. Carlos Gomez">
+                </div>
+                
+                <div class="form-row" style="gap: 12px;">
+                    <div class="form-group" style="flex: 1.2;">
+                        <label for="self-reg-username">Username (Optional)</label>
+                        <input type="text" id="self-reg-username" placeholder="Choose username...">
+                    </div>
+                    <div class="form-group">
+                        <label for="self-reg-password">Password (Optional)</label>
+                        <input type="password" id="self-reg-password" placeholder="Choose password...">
+                    </div>
+                </div>
+
+                <div class="form-row" style="gap: 12px;">
+                    <div class="form-group">
+                        <label for="self-reg-dob">Date of Birth</label>
+                        <input type="date" id="self-reg-dob">
+                    </div>
+                    <div class="form-group">
+                        <label for="self-reg-nationality">Nationality</label>
+                        <input type="text" id="self-reg-nationality" placeholder="e.g. Mexico">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="self-reg-lang">Primary Language</label>
+                    <select id="self-reg-lang" style="background-color: var(--bg-control); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 10px; padding: 10px 14px; font-size: 13.5px; outline: none; cursor: pointer;">
+                        <option value="English">English</option>
+                        <option value="Spanish">Español (Spanish)</option>
+                        <option value="Bengali">বাংলা (Bengali)</option>
+                        <option value="Haitian Creole">Kreyòl (Haitian)</option>
+                    </select>
+                </div>
+                
+                <div id="self-reg-error-msg" class="login-error text-red" style="display:none; font-size:12.5px; font-weight:600;">
+                    <i class="fa-solid fa-circle-exclamation"></i> Error registering. Username may already exist.
+                </div>
+                
+                <button type="submit" class="btn-primary w-full mt-2" style="justify-content:center; height:44px; font-size:14px;">
+                    <i class="fa-solid fa-user-plus"></i> Register & Create Passport
+                </button>
+                
+                <div class="login-toggle-link" style="text-align: center; margin-top: 4px; font-size: 13px;">
+                    <a href="#" id="link-show-login" style="color: var(--primary); text-decoration: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Login
+                    </a>
+                </div>
+            </form>
+
+            <!-- Registration Success View -->
+            <div id="self-reg-success-view" style="display:none; flex-direction:column; gap:16px; text-align:center;">
+                <div style="font-size: 40px; color: var(--emerald); margin-bottom: 4px;">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 style="font-size: 18px; font-weight: 800; color: var(--emerald); margin: 0;">Passport Created!</h3>
+                <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin: 0 0 4px 0;">
+                    Your digital health passport is ready. Write down or save your login credentials:
+                </p>
+                
+                <div style="background-color: var(--bg-control); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; text-align: left; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;">
+                    <div style="display: flex; justify-content: space-between;"><strong>Care ID:</strong> <span id="success-display-id" style="color: var(--primary); font-weight: 700;">CP-xxxx</span></div>
+                    <div style="display: flex; justify-content: space-between;"><strong>Username:</strong> <span id="success-display-username" style="font-weight: 600;">username</span></div>
+                    <div style="display: flex; justify-content: space-between;"><strong>Password:</strong> <span id="success-display-password" style="font-weight: 600;">password</span></div>
+                </div>
+                
+                <button id="btn-success-goto-portal" class="btn-primary w-full mt-2" style="justify-content:center; height:44px; font-size:14px;">
+                    <i class="fa-solid fa-house-chimney-medical"></i> Enter Portal
+                </button>
+            </div>
+            
+            <div class="login-footer">
+                <p>Offline-ready access for remote mobile clinics. Please contact your coordinator for credentials if you are a seasonal worker.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Shell Layout (Starts hidden until auth) -->
+    <div class="app-container" id="app-container" style="display: none;">
+        <!-- Navigation Header -->
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-passport-health"></i>
+                    <i class="fa-solid fa-heart-pulse logo-icon"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>CarePassport</h1>
+                    <span class="brand-tagline">Migrant Health Identity & Records</span>
+                </div>
+            </div>
+
+            <!-- Global Statuses & Controls -->
+            <div class="header-controls">
+                <!-- Language Selector -->
+                <div class="control-group">
+                    <label for="global-lang-select"><i class="fa-solid fa-language"></i></label>
+                    <select id="global-lang-select" class="btn-select">
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="bn">বাংলা (Bengali)</option>
+                        <option value="ht">Kreyòl (Haitian)</option>
+                    </select>
+                </div>
+
+                <!-- Offline Simulator Mode -->
+                <button id="offline-toggle-btn" class="btn-control text-emerald" title="Simulate Offline Mode">
+                    <i class="fa-solid fa-wifi"></i>
+                    <span id="offline-status-text">Online</span>
+                </button>
+
+                <!-- Theme Toggle -->
+                <button id="theme-toggle-btn" class="btn-control" title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <!-- Logout Button -->
+                <button id="btn-logout" class="btn-control text-red" title="Logout Session" style="display: none;">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <div class="app-body">
+            <!-- Sidebar Panel: Worker Search & List -->
+            <aside class="app-sidebar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="worker-search-input" placeholder="Search by name, ID, or condition...">
+                </div>
+
+                <div class="sidebar-header">
+                    <h2 data-i18n="workers_list">Registered Workers</h2>
+                    <button id="btn-open-register" class="btn-icon-primary" title="Register New Worker">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                </div>
+
+                <!-- Worker List Container -->
+                <div id="worker-list" class="worker-list-container">
+                    <!-- Loaded dynamically via app.js -->
+                    <div class="skeleton-list">
+                        <div class="skeleton-item"></div>
+                        <div class="skeleton-item"></div>
+                        <div class="skeleton-item"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content Workspace -->
+            <main class="app-main-content">
+                <!-- STATE 1: Empty / Welcome Dashboard -->
+                <div id="welcome-view" class="view-panel active">
+                    <div class="welcome-hero">
+                        <div class="hero-icon">
+                            <i class="fa-solid fa-house-chimney-medical"></i>
+                        </div>
+                        <h2 data-i18n="welcome_title">Healthcare Continuity Without Borders</h2>
+                        <p data-i18n="welcome_desc">CarePassport bridges the documentation gap for seasonal agricultural, construction, and migrant workers. Securely store essential vitals, chronic conditions, and immunization logs that travel anywhere, online or offline.</p>
+                    </div>
+
+                    <!-- Dashboard Quick Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-soft-teal">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label" data-i18n="stat_active_workers">Active Passports</span>
+                                <h3 id="stat-worker-count">3</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon bg-soft-emerald">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label" data-i18n="stat_clinics">Interstate Clinics</span>
+                                <h3 id="stat-clinic-count">6</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon bg-soft-amber">
+                                <i class="fa-solid fa-cloud-arrow-down"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label" data-i18n="stat_offline">Offline Syncs</span>
+                                <h3 id="stat-offline-count">100% Ready</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-guides">
+                        <h3 data-i18n="getting_started">Quick Start Guide</h3>
+                        <div class="guides-grid">
+                            <div class="guide-item">
+                                <div class="guide-num">1</div>
+                                <h4>Find or Create a Worker</h4>
+                                <p>Search the list or register a new worker. A unique tracking ID will be generated automatically.</p>
+                            </div>
+                            <div class="guide-item">
+                                <div class="guide-num">2</div>
+                                <h4>Generate QR Passport Card</h4>
+                                <p>Print or download the digital health card. The QR code works offline for instant scanning in remote fields.</p>
+                            </div>
+                            <div class="guide-item">
+                                <div class="guide-num">3</div>
+                                <h4>Reconstruct Medical History</h4>
+                                <p>For workers with no written records, launch the voice assistant. AI translates and structures their spoken history.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Doctor Verification Queue Section -->
+                    <div id="doctor-verification-section" class="quick-guides mt-6" style="display: none; border-top: 1px solid var(--border-color); padding-top: 30px; margin-top: 30px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h3 style="margin-bottom: 0; text-align: left; font-size: 16px; font-weight: 700; color: var(--text-secondary);">
+                                <i class="fa-solid fa-user-shield text-teal"></i> Pending Doctor Verifications
+                            </h3>
+                            <span id="verification-count-badge" class="badge-status-processing listening" style="font-size: 12px; font-weight: 700;">0 Pending</span>
+                        </div>
+                        <div id="verifications-container" class="verifications-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                            <div class="chip-empty" style="grid-column: 1 / -1; text-align: center; padding: 20px;">No pending verification requests from patients.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STATE 2: Detailed Patient View -->
+                <div id="patient-detail-view" class="view-panel">
+                    <!-- Detail Header Banner -->
+                    <div class="patient-detail-header">
+                        <div class="patient-identity">
+                            <div class="patient-avatar-box">
+                                <div id="patient-avatar" class="patient-avatar">CM</div>
+                            </div>
+                            <div class="patient-title">
+                                <div class="patient-name-row">
+                                    <h2 id="patient-name">Carlos Mendoza</h2>
+                                    <span id="patient-nationality-badge" class="badge-nationality">Mexican</span>
+                                </div>
+                                <div class="patient-sub-row">
+                                    <span><strong data-i18n="label_id">Care ID:</strong> <span id="patient-id-display" class="copyable">CP-5821-01</span></span>
+                                    <span><strong data-i18n="label_dob">DOB:</strong> <span id="patient-dob-display">1991-04-12</span></span>
+                                    <span><strong data-i18n="label_languages">Languages:</strong> <span id="patient-languages-display">Spanish, English</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="patient-actions">
+                            <button id="btn-open-voice-builder" class="btn-secondary">
+                                <i class="fa-solid fa-microphone"></i>
+                                <span data-i18n="btn_ai_history">AI Voice Builder</span>
+                            </button>
+                            <button id="btn-open-add-visit" class="btn-primary">
+                                <i class="fa-solid fa-plus"></i>
+                                <span data-i18n="btn_add_visit">Add Clinic Visit</span>
+                            </button>
+                        </div>
+
+                        <!-- Actions visible only to Patient role -->
+                        <div class="patient-worker-actions" style="display: none; gap: 10px;">
+                            <button id="btn-open-patient-ai" class="btn-secondary">
+                                <i class="fa-solid fa-robot"></i>
+                                <span>AI Care Assistant</span>
+                            </button>
+                            <button id="btn-open-booking" class="btn-primary">
+                                <i class="fa-solid fa-calendar-check"></i>
+                                <span>Book Clinic Session</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Details Content Grid -->
+                    <div class="details-grid">
+                        <!-- Left Panel: Core Clinical Info & QR Card -->
+                        <div class="detail-left-column">
+                            <!-- Section: Vitals & Core Medical -->
+                            <div class="info-card">
+                                <div class="info-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <h3><i class="fa-solid fa-notes-medical"></i> <span data-i18n="sec_core_medical">Core Medical Summary</span></h3>
+                                    <span class="badge-lock" style="font-size: 11px; font-weight: 700; color: var(--emerald); background: var(--emerald-glow); border: 1px solid var(--emerald); padding: 2px 8px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
+                                        <i class="fa-solid fa-lock"></i> Doctor Verified
+                                    </span>
+                                </div>
+                                <div class="info-card-body">
+                                    <div class="med-vitals-row">
+                                        <div class="vital-badge-box">
+                                            <span class="vital-label" data-i18n="label_blood">Blood Type</span>
+                                            <span id="patient-blood-display" class="vital-val">O+</span>
+                                        </div>
+                                        <div class="vital-badge-box">
+                                            <span class="vital-label" data-i18n="label_allergies_count">Allergies</span>
+                                            <span id="patient-allergies-count" class="vital-val text-red">2</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="medical-chips-list">
+                                        <div class="chip-group">
+                                            <label data-i18n="label_allergies">Allergies</label>
+                                            <div id="patient-allergies-list" class="chips-container">
+                                                <!-- Dyn -->
+                                            </div>
+                                        </div>
+
+                                        <div class="chip-group">
+                                            <label data-i18n="label_conditions">Chronic Conditions</label>
+                                            <div id="patient-conditions-list" class="chips-container">
+                                                <!-- Dyn -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section: Active Medications & Immunizations -->
+                            <div class="info-card">
+                                <div class="info-card-header">
+                                    <h3><i class="fa-solid fa-pills"></i> <span data-i18n="sec_meds_vaccines">Meds & Vaccines</span></h3>
+                                </div>
+                                <div class="info-card-body">
+                                    <h4 data-i18n="label_current_meds" class="section-subheading">Current Prescribed Medications</h4>
+                                    <div id="patient-medications-table" class="meds-list">
+                                        <!-- Dyn -->
+                                    </div>
+
+                                    <h4 data-i18n="label_immunizations" class="section-subheading mt-4">Immunization Records</h4>
+                                    <div id="patient-immunizations-list" class="vaccine-timeline">
+                                        <!-- Dyn -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section: Emergency Contacts -->
+                            <div class="info-card">
+                                <div class="info-card-header">
+                                    <h3><i class="fa-solid fa-address-book"></i> <span data-i18n="sec_emergency">Emergency Contact</span></h3>
+                                </div>
+                                <div class="info-card-body">
+                                    <div id="patient-emergency-contact" class="emergency-contact-box">
+                                        <!-- Dyn -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: QR Card Widget & Cross-Border Care Timeline -->
+                        <div class="detail-right-column">
+                            <!-- Digital Passport Wallet Card Card -->
+                            <div class="qr-wallet-card">
+                                <div class="wallet-card-header">
+                                    <div class="brand">
+                                        <i class="fa-solid fa-passport-health"></i>
+                                        <span>CarePassport™</span>
+                                    </div>
+                                    <div id="card-sync-indicator" class="sync-indicator">
+                                        <i class="fa-solid fa-circle-check"></i> <span data-i18n="card_offline_status">Cached Offline</span>
+                                    </div>
+                                </div>
+                                <div class="wallet-card-body">
+                                    <div class="qr-card-info">
+                                        <h3 id="card-name">Carlos Mendoza</h3>
+                                        <p class="card-id">Care ID: <strong id="card-id-text">CP-5821-01</strong></p>
+                                        <p class="card-dob">DOB: <span id="card-dob-text">1991-04-12</span></p>
+                                        <div class="card-vitals">
+                                            <span><strong>Blood:</strong> <span id="card-blood">O+</span></span>
+                                            <span><strong>Allergies:</strong> <span id="card-allergies-summary">Penicillin, Sulfa</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="qr-code-container">
+                                        <canvas id="qr-code-canvas" width="130" height="130"></canvas>
+                                        <div class="qr-hint" data-i18n="qr_hint">Scan for full records</div>
+                                    </div>
+                                </div>
+                                <div class="wallet-card-footer">
+                                    <button id="btn-download-card" class="btn-card-action">
+                                        <i class="fa-solid fa-download"></i> <span data-i18n="btn_download">Download Card</span>
+                                    </button>
+                                    <button id="btn-share-card" class="btn-card-action">
+                                        <i class="fa-solid fa-share-nodes"></i> <span data-i18n="btn_sms">Send via SMS</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Cross-Border Treatment Timeline -->
+                            <div class="timeline-card">
+                                <div class="timeline-header">
+                                    <h3><i class="fa-solid fa-map-location-dot"></i> <span data-i18n="sec_timeline">Cross-Border Care Timeline</span></h3>
+                                </div>
+                                <div class="timeline-body">
+                                    <div id="patient-timeline" class="vertical-timeline">
+                                        <!-- Dyn -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STATE 3: AI Voice History Builder Workspace -->
+                <div id="voice-builder-view" class="view-panel">
+                    <div class="voice-builder-header">
+                        <button id="btn-close-voice-builder" class="btn-back">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <div class="header-info">
+                            <h2>AI Voice Health History Builder</h2>
+                            <p>Reconstruct medical history through a guided dialog for patients without written documents.</p>
+                        </div>
+                    </div>
+
+                    <div class="voice-builder-workspace">
+                        <!-- Conversation Panel -->
+                        <div class="conversation-pane">
+                            <div class="conv-controls">
+                                <div class="voice-lang-select-box">
+                                    <label for="voice-lang-select" data-i18n="voice_lang">Guided Language:</label>
+                                    <select id="voice-lang-select" class="btn-select">
+                                        <option value="es">Español (Spanish)</option>
+                                        <option value="en">English</option>
+                                        <option value="bn">বাংলা (Bengali)</option>
+                                        <option value="ht">Kreyòl ayisyen (Haitian Creole)</option>
+                                    </select>
+                                </div>
+
+                                <div class="audio-feedback-icons">
+                                    <button id="btn-voice-volume" class="btn-audio-control" title="Mute/Unmute Audio Guidance">
+                                        <i class="fa-solid fa-volume-high"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Conversation Chat History -->
+                            <div id="conversation-chat" class="chat-container">
+                                <!-- Dynamic Chat Bubbles -->
+                            </div>
+
+                            <!-- Voice input controller -->
+                            <div class="voice-input-area">
+                                <!-- Wave animation indicator -->
+                                <div id="voice-wave-container" class="voice-wave-container">
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                </div>
+
+                                <div class="input-controls-row">
+                                    <button id="btn-mic-toggle" class="btn-mic idle" title="Use Microphone">
+                                        <i class="fa-solid fa-microphone"></i>
+                                    </button>
+                                    
+                                    <div class="chat-input-wrapper">
+                                        <input type="text" id="chat-text-input" placeholder="Type your response or ask a question...">
+                                        <button id="btn-send-chat" class="btn-send-chat" title="Send Response">
+                                            <i class="fa-solid fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p id="voice-helper-instruction" class="voice-hint">Speak, type your message, or pick an option below</p>
+
+                                <!-- Standard Quick Answers (for translation/simulation demo support) -->
+                                <div id="quick-response-options" class="quick-options-row">
+                                    <!-- Dyn options based on current question -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Real-time Structured JSON Extraction Panel / Patient Assistant View -->
+                        <div class="structured-output-pane">
+                            <div class="pane-title" id="voice-builder-pane-title">
+                                <h3><i class="fa-solid fa-microchip"></i> Real-time Structured Records</h3>
+                                <span class="badge-status-processing" id="ai-processing-status">Listening...</span>
+                            </div>
+                            
+                            <!-- Doctor View: Record Extraction -->
+                            <div class="pane-body" id="doctor-builder-panel">
+                                <p class="pane-instruction">As the patient responds to questions, the AI will transcribe, translate, and extract core clinical data into electronic health records structure in real-time.</p>
+
+                                <div class="extracted-groups">
+                                    <div class="extracted-card">
+                                        <span class="label"><i class="fa-solid fa-allergies"></i> Allergies</span>
+                                        <ul id="ai-extracted-allergies" class="extracted-list">
+                                            <li class="empty-placeholder">No allergies detected yet</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="extracted-card">
+                                        <span class="label"><i class="fa-solid fa-disease"></i> Chronic Conditions</span>
+                                        <ul id="ai-extracted-conditions" class="extracted-list">
+                                            <li class="empty-placeholder">No chronic conditions detected yet</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="extracted-card">
+                                        <span class="label"><i class="fa-solid fa-pills"></i> Extracted Medications</span>
+                                        <ul id="ai-extracted-medications" class="extracted-list">
+                                            <li class="empty-placeholder">No medications detected yet</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="extracted-card">
+                                        <span class="label"><i class="fa-solid fa-syringe"></i> Extracted Vaccines</span>
+                                        <ul id="ai-extracted-vaccines" class="extracted-list">
+                                            <li class="empty-placeholder">No immunizations detected yet</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <button id="btn-save-ai-extracted" class="btn-primary w-full mt-4" disabled>
+                                    <i class="fa-solid fa-floppy-disk"></i> Save and Update Patient Passport
+                                </button>
+                            </div>
+
+                            <!-- Patient View: Prescription & Appointment Management -->
+                            <div class="pane-body" id="patient-assistant-panel" style="display:none; flex-direction:column; gap:16px;">
+                                <p class="pane-instruction">Your virtual health assistant is checking your doctor prescriptions and scheduling options.</p>
+
+                                <div class="extracted-groups" style="display:flex; flex-direction:column; gap:12px;">
+                                    <div class="extracted-card">
+                                        <span class="label" style="color:var(--primary);"><i class="fa-solid fa-prescription-bottle-medical"></i> Verified Active Medications</span>
+                                        <ul id="patient-verified-meds-list" class="extracted-list">
+                                            <!-- Dynamically populated -->
+                                        </ul>
+                                    </div>
+
+                                    <div class="extracted-card">
+                                        <span class="label" style="color:var(--emerald);"><i class="fa-solid fa-calendar-check"></i> Booked Clinic Appointments</span>
+                                        <ul id="patient-booked-appointments-list" class="extracted-list">
+                                            <li class="empty-placeholder">No appointments scheduled</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="extracted-card">
+                                        <span class="label" style="color:var(--amber);"><i class="fa-solid fa-file-medical"></i> Doctor Refill Requests</span>
+                                        <ul id="patient-refill-requests-list" class="extracted-list">
+                                            <li class="empty-placeholder">No active refill requests</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL 1: Register New Worker -->
+    <div id="register-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Register New Migrant Worker</h2>
+                <button class="btn-close-modal" id="btn-close-register-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="register-worker-form">
+                <div class="modal-body">
+                    <p class="modal-instruction">Register workers without a fixed address. An official tracking Care ID and offline passport card will be generated.</p>
+                    
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="reg-name">Full Name *</label>
+                            <input type="text" id="reg-name" required placeholder="e.g. Carlos Gomez">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="reg-dob">Date of Birth</label>
+                            <input type="date" id="reg-dob">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-nationality">Nationality / Country of Origin</label>
+                            <input type="text" id="reg-nationality" placeholder="e.g. Mexico, El Salvador">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-blood">Blood Group</label>
+                            <select id="reg-blood" class="btn-select">
+                                <option value="Not Specified">Select...</option>
+                                <option value="O-Positive">O-Positive (O+)</option>
+                                <option value="O-Negative">O-Negative (O-)</option>
+                                <option value="A-Positive">A-Positive (A+)</option>
+                                <option value="A-Negative">A-Negative (A-)</option>
+                                <option value="B-Positive">B-Positive (B+)</option>
+                                <option value="B-Negative">B-Negative (B-)</option>
+                                <option value="AB-Positive">AB-Positive (AB+)</option>
+                                <option value="AB-Negative">AB-Negative (AB-)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Languages Spoken</label>
+                        <div class="checkbox-options-grid">
+                            <label><input type="checkbox" name="reg-languages" value="Spanish" checked> Spanish</label>
+                            <label><input type="checkbox" name="reg-languages" value="English" checked> English</label>
+                            <label><input type="checkbox" name="reg-languages" value="Bengali"> Bengali</label>
+                            <label><input type="checkbox" name="reg-languages" value="Haitian Creole"> Haitian Creole</label>
+                        </div>
+                    </div>
+
+                    <div class="modal-divider">Emergency Contact</div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-ec-name">Contact Name</label>
+                            <input type="text" id="reg-ec-name" placeholder="e.g. Spouse / Sibling Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-ec-relation">Relation</label>
+                            <input type="text" id="reg-ec-relation" placeholder="e.g. Spouse, Brother">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-ec-phone">Contact Phone</label>
+                            <input type="text" id="reg-ec-phone" placeholder="e.g. +1 (555) 000-0000">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="btn-cancel-register">Cancel</button>
+                    <button type="submit" class="btn-primary">Register & Generate Passport</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Add Clinic Visit Record -->
+    <div id="add-visit-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Cross-Border Visit Record</h2>
+                <button class="btn-close-modal" id="btn-close-visit-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="add-visit-form">
+                <div class="modal-body">
+                    <p class="modal-instruction">Enter clinical care delivered to ensure future doctors in other states know this worker's recent history.</p>
+
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="visit-clinic">Clinic Name *</label>
+                            <input type="text" id="visit-clinic" required placeholder="e.g. Yuma Mobile Care Unit">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="visit-date">Visit Date *</label>
+                            <input type="date" id="visit-date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="visit-location">Location (City, State) *</label>
+                            <input type="text" id="visit-location" required placeholder="e.g. Yuma, AZ">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="visit-doctor">Doctor/Provider Name</label>
+                            <input type="text" id="visit-doctor" placeholder="e.g. Dr. Jane Doe">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="visit-reason">Reason for Visit *</label>
+                        <input type="text" id="visit-reason" required placeholder="e.g. Heat stress, high blood pressure check">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="visit-diagnosis">Diagnosis</label>
+                            <input type="text" id="visit-diagnosis" placeholder="e.g. Mild dehydration, Controlled asthma">
+                        </div>
+                        <div class="form-group">
+                            <label for="visit-treatment">Treatment / Prescriptions</label>
+                            <input type="text" id="visit-treatment" placeholder="e.g. IV Fluids, Advair refill">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="visit-notes">Clinical Notes</label>
+                        <textarea id="visit-notes" rows="3" placeholder="Advised rest for 24h, return if symptoms worsen..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="btn-cancel-visit">Cancel</button>
+                    <button type="submit" class="btn-primary">Add to Patient Timeline</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Book Clinic Session -->
+    <div id="booking-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Book Clinic Session</h2>
+                <button class="btn-close-modal" id="btn-close-booking-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="booking-form">
+                <div class="modal-body">
+                    <p class="modal-instruction">Schedule an appointment with one of our mobile care clinics. We will sync this booking to your profile.</p>
+                    
+                    <div class="form-group">
+                        <label for="booking-clinic">Select Mobile Clinic *</label>
+                        <select id="booking-clinic" required>
+                            <option value="Fresno Mobile Health Unit">Fresno Mobile Health Unit (Fresno, CA)</option>
+                            <option value="Yakima Mobile Medical Unit">Yakima Mobile Medical Unit (Yakima, WA)</option>
+                            <option value="Travis County Mobile Clinic">Travis County Mobile Clinic (Austin, TX)</option>
+                            <option value="Yuma Mobile Care Unit">Yuma Mobile Care Unit (Yuma, AZ)</option>
+                            <option value="Hood River Care Center">Hood River Care Center (Hood River, OR)</option>
+                            <option value="Belle Glade Health Clinic">Belle Glade Health Clinic (Belle Glade, FL)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row" style="gap: 12px;">
+                        <div class="form-group">
+                            <label for="booking-date">Appointment Date *</label>
+                            <input type="date" id="booking-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="booking-time">Time Slot *</label>
+                            <select id="booking-time" required>
+                                <option value="09:00 AM">09:00 AM - 10:00 AM</option>
+                                <option value="10:30 AM">10:30 AM - 11:30 AM</option>
+                                <option value="01:00 PM">01:00 PM - 02:00 PM</option>
+                                <option value="02:30 PM">02:30 PM - 03:30 PM</option>
+                                <option value="04:00 PM">04:00 PM - 05:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="booking-reason">Reason for Visit *</label>
+                        <input type="text" id="booking-reason" required placeholder="e.g. Checkup, Medication Refill, Vaccine...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="btn-cancel-booking">Cancel</button>
+                    <button type="submit" class="btn-primary">Confirm Appointment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Copy Success Toast Notification -->
+    <div id="toast-notification" class="toast-notification">
+        <i class="fa-solid fa-circle-check toast-icon"></i>
+        <span id="toast-message">Care ID copied!</span>
+    </div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>

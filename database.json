@@ -1,0 +1,322 @@
+{
+  "admins": [
+    {
+      "username": "clinic_admin",
+      "password": "securepass"
+    }
+  ],
+  "patients": [
+    {
+      "id": "CP-5821-01",
+      "username": "carlos",
+      "password": "carlos123",
+      "name": "Carlos Mendoza",
+      "dateOfBirth": "1991-04-12",
+      "nationality": "Mexican",
+      "languages": [
+        "Spanish",
+        "English"
+      ],
+      "bloodGroup": "O-Positive",
+      "allergies": [
+        "Penicillin",
+        "Sulfa Drugs"
+      ],
+      "chronicConditions": [
+        "Hypertension (High Blood Pressure)"
+      ],
+      "medications": [
+        {
+          "name": "Amlodipine Besylate",
+          "dosage": "5mg once daily",
+          "purpose": "Blood Pressure"
+        },
+        {
+          "name": "Albuterol HFA",
+          "dosage": "2 puffs as needed for wheezing",
+          "purpose": "Rescue Inhaler"
+        }
+      ],
+      "immunizations": [
+        {
+          "disease": "Tetanus (Tdap)",
+          "date": "2024-03-10",
+          "location": "Hood River Care Center, OR"
+        },
+        {
+          "disease": "COVID-19 (Pfizer Bivalent)",
+          "date": "2023-11-15",
+          "location": "Fresno Community Clinic, CA"
+        },
+        {
+          "disease": "Hepatitis A",
+          "date": "2025-01-20",
+          "location": "Yakima Mobile Medical Unit, WA"
+        }
+      ],
+      "emergencyContact": {
+        "name": "Maria Mendoza",
+        "relation": "Spouse",
+        "phone": "+1 (555) 234-5678"
+      },
+      "timeline": [
+        {
+          "date": "2026-06-23",
+          "clinicName": "CarePassport Virtual Assistant (Refill Approved)",
+          "location": "Online Verification",
+          "reason": "Symptom Check & Refill Review: Moderate asthma wheezing and tight chest",
+          "diagnosis": "Review of AI suggested: Albuterol HFA rescue inhaler (2 puffs as needed)",
+          "treatment": "Approved AI action: Albuterol HFA rescue inhaler (2 puffs as needed)",
+          "doctor": "Dr. Sarah Jenkins, MD",
+          "notes": "Doctor verified and signed off on this AI-suggested care plan."
+        },
+        {
+          "date": "2026-06-24",
+          "clinicName": "Fresno Mobile Health Unit",
+          "location": "Scheduled Slot: 09:00 AM",
+          "reason": "Appointment Scheduled: checkup",
+          "diagnosis": "Confirmed Slot",
+          "treatment": "Pending Doctor Consultation",
+          "doctor": "Assigned Mobile Clinic Doctor",
+          "notes": "Visit slot booked. Patient verified their active medications list via the Care AI Assistant."
+        },
+        {
+          "date": "2026-06-24",
+          "clinicName": "Fresno Mobile Health Unit",
+          "location": "Scheduled Slot: 09:00 AM",
+          "reason": "Appointment Scheduled: checkup",
+          "diagnosis": "Confirmed Slot",
+          "treatment": "Pending Doctor Consultation",
+          "doctor": "Assigned Mobile Clinic Doctor",
+          "notes": "Visit slot booked. Patient verified their active medications list via the Care AI Assistant."
+        },
+        {
+          "date": "2026-06-24",
+          "clinicName": "Fresno Mobile Health Unit",
+          "location": "Scheduled Slot: 09:00 AM",
+          "reason": "Appointment Scheduled: checkup",
+          "diagnosis": "Confirmed Slot",
+          "treatment": "Pending Doctor Consultation",
+          "doctor": "Assigned Mobile Clinic Doctor",
+          "notes": "Visit slot booked. Patient verified their active medications list via the Care AI Assistant."
+        },
+        {
+          "date": "2024-03-10",
+          "clinicName": "Hood River Care Center",
+          "location": "Hood River, OR",
+          "reason": "Deep scrape on forearm from orchard equipment",
+          "diagnosis": "Minor laceration, clean border",
+          "treatment": "Wound cleansed and dressed. Administered Tdap booster.",
+          "doctor": "Dr. E. Vance, MD",
+          "notes": "Patient advised to keep wound covered and dry for 3 days."
+        },
+        {
+          "date": "2024-08-22",
+          "clinicName": "Fresno Community Clinic",
+          "location": "Fresno, CA",
+          "reason": "Routine screening & blood pressure check",
+          "diagnosis": "Stage 1 Hypertension",
+          "treatment": "Initiated Amlodipine 5mg daily. Counseled on dietary sodium reduction.",
+          "doctor": "Dr. Sarah Jenkins, MD",
+          "notes": "Patient is a seasonal picker, works in high heat. Stressed hydration."
+        },
+        {
+          "date": "2025-01-20",
+          "clinicName": "Yakima Mobile Medical Unit",
+          "location": "Yakima, WA",
+          "reason": "Blood pressure check & medication refill",
+          "diagnosis": "Controlled Hypertension",
+          "treatment": "Refilled Amlodipine (90-day supply). Administered Hepatitis A (Dose 1).",
+          "doctor": "Dr. Robert Chen, DO",
+          "notes": "BP is stable at 128/82. Patient reports no side effects from medication."
+        }
+      ]
+    },
+    {
+      "id": "CP-9403-02",
+      "username": "amara",
+      "password": "amara123",
+      "name": "Amara Sen",
+      "dateOfBirth": "1998-09-25",
+      "nationality": "Bangladeshi",
+      "languages": [
+        "Bengali",
+        "English"
+      ],
+      "bloodGroup": "B-Positive",
+      "allergies": [
+        "Latex",
+        "Aspirin"
+      ],
+      "chronicConditions": [
+        "Type 1 Diabetes Mellitus"
+      ],
+      "medications": [
+        {
+          "name": "Insulin Glargine (Lantus)",
+          "dosage": "15 units subcutaneously at bedtime",
+          "purpose": "Basal Insulin"
+        },
+        {
+          "name": "Insulin Lispro (Humalog)",
+          "dosage": "Sliding scale (approx. 5 units per meal)",
+          "purpose": "Mealtime Insulin"
+        }
+      ],
+      "immunizations": [
+        {
+          "disease": "Influenza (Flu Shot)",
+          "date": "2025-10-04",
+          "location": "Travis County Mobile Clinic, Austin, TX"
+        },
+        {
+          "disease": "Meningococcal (MenACWY)",
+          "date": "2022-05-18",
+          "location": "Dhaka General Hospital, Bangladesh"
+        }
+      ],
+      "emergencyContact": {
+        "name": "Kabir Sen",
+        "relation": "Brother",
+        "phone": "+1 (555) 987-6543"
+      },
+      "timeline": [
+        {
+          "date": "2025-04-12",
+          "clinicName": "Travis County Mobile Clinic",
+          "location": "Austin, TX",
+          "reason": "Shortness of breath and elevated blood glucose",
+          "diagnosis": "Mild hyperglycemia, dehydrated",
+          "treatment": "Administered 4 units IV saline hydration and Humalog. Re-educated on insulin storage in hot weather.",
+          "doctor": "Dr. Angela Martinez, MD",
+          "notes": "Patient works in construction. Recommended cooling pouch for insulin storage during work shifts."
+        },
+        {
+          "date": "2025-10-04",
+          "clinicName": "Southwest Refugee Health Services",
+          "location": "Phoenix, AZ",
+          "reason": "Refill request for insulin, general health check",
+          "diagnosis": "Type 1 Diabetes, stable control",
+          "treatment": "Provided 3-month supply of Lantus and Humalog pen needles. Administered seasonal Influenza vaccine.",
+          "doctor": "Dr. Laura Stone, MD",
+          "notes": "HbA1c checked at 7.4%. Patient is managing well despite frequent relocations."
+        }
+      ]
+    },
+    {
+      "id": "CP-1194-03",
+      "username": "jean",
+      "password": "jean123",
+      "name": "Jean-Pierre Duval",
+      "dateOfBirth": "1985-07-30",
+      "nationality": "Haitian",
+      "languages": [
+        "Haitian Creole",
+        "French",
+        "English"
+      ],
+      "bloodGroup": "A-Positive",
+      "allergies": [
+        "Sulfa Drugs"
+      ],
+      "chronicConditions": [
+        "Moderate Persistent Asthma"
+      ],
+      "medications": [
+        {
+          "name": "Fluticasone/Salmeterol (Advair)",
+          "dosage": "115/21 mcg inhaler, 1 puff twice daily",
+          "purpose": "Daily Asthma Controller"
+        },
+        {
+          "name": "Albuterol HFA (ProAir)",
+          "dosage": "90 mcg, 2 puffs as needed for wheezing",
+          "purpose": "Rescue Inhaler"
+        }
+      ],
+      "immunizations": [
+        {
+          "disease": "Tdap (Tetanus, Diphtheria, Pertussis)",
+          "date": "2023-08-04",
+          "location": "Belle Glade Health Clinic, FL"
+        },
+        {
+          "disease": "Pneumococcal (PPSV23)",
+          "date": "2024-11-12",
+          "location": "East Coast Migrant Health, NC"
+        }
+      ],
+      "emergencyContact": {
+        "name": "Marie Duval",
+        "relation": "Sister",
+        "phone": "+1 (555) 789-0123"
+      },
+      "timeline": [
+        {
+          "date": "2023-08-04",
+          "clinicName": "Belle Glade Health Clinic",
+          "location": "Belle Glade, FL",
+          "reason": "Exacerbation of asthma due to cane field burning smoke",
+          "diagnosis": "Acute Asthma Exacerbation",
+          "treatment": "Nebulizer treatment in clinic. Started 5-day course of Prednisone 40mg. Administered Tdap vaccine.",
+          "doctor": "Dr. G. Jean-Baptiste, MD",
+          "notes": "Advised wearing N95 mask when working near smoke/dust. Prescribed rescue inhaler."
+        },
+        {
+          "date": "2024-11-12",
+          "clinicName": "East Coast Migrant Health Center",
+          "location": "Hendersonville, NC",
+          "reason": "Refill of asthma medications, seasonal check-up",
+          "diagnosis": "Asthma, well-controlled on current therapy",
+          "treatment": "Refilled Advair and Albuterol. Administered PPSV23 vaccine.",
+          "doctor": "Dr. K. Patel, MD",
+          "notes": "Lungs clear. Patient reports good compliance with controller inhaler."
+        }
+      ]
+    },
+    {
+      "id": "CP-9232-57",
+      "username": "steve154",
+      "password": "cp7237",
+      "name": "steve",
+      "dateOfBirth": "2026-05-04",
+      "nationality": "Not Specified",
+      "languages": [
+        "English"
+      ],
+      "bloodGroup": "Not Specified",
+      "allergies": [],
+      "chronicConditions": [],
+      "medications": [],
+      "immunizations": [],
+      "emergencyContact": {
+        "name": "",
+        "relation": "",
+        "phone": ""
+      },
+      "timeline": []
+    }
+  ],
+  "verifications": [
+    {
+      "id": "V-1600-57",
+      "patientId": "CP-5821-01",
+      "patientName": "Carlos Mendoza",
+      "symptoms": "Moderate asthma wheezing and tight chest",
+      "aiSuggestion": "Albuterol HFA rescue inhaler (2 puffs as needed)",
+      "selectedDoctor": "Dr. Sarah Jenkins, MD",
+      "date": "2026-06-23",
+      "status": "approved"
+    },
+    {
+      "id": "V-1509-58",
+      "patientId": "CP-5821-01",
+      "patientName": "Carlos Mendoza",
+      "symptoms": "Asthma wheezing / tight chest",
+      "aiSuggestion": "Albuterol HFA rescue inhaler (2 puffs as needed)",
+      "selectedDoctor": "Dr. Sarah Jenkins, MD",
+      "date": "2026-06-23",
+      "status": "pending"
+    }
+  ]
+}
