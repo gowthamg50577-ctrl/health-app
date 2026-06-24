@@ -166,7 +166,7 @@ const translations = {
 // 2. STATE INITIALIZATION
 // ==========================================================================
 let patients = [];
-let authRole = 'admin'; // 'admin' or 'patient'
+let authRole = 'doctor'; // 'doctor' or 'patient'
 let aiMode = 'doctor'; // 'doctor' or 'patient'
 let currentPatient = null;
 let currentLanguage = 'en';
@@ -427,11 +427,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Login Portal bindings
     const loginForm = document.getElementById("login-form");
-    const tabAdmin = document.getElementById("tab-admin");
+    const tabDoctor = document.getElementById("tab-doctor");
     const tabPatient = document.getElementById("tab-patient");
     const btnLogout = document.getElementById("btn-logout");
 
-    tabAdmin.addEventListener("click", () => switchLoginRole('admin'));
+    tabDoctor.addEventListener("click", () => switchLoginRole('doctor'));
     tabPatient.addEventListener("click", () => switchLoginRole('patient'));
     loginForm.addEventListener("submit", handleLoginSubmit);
     btnLogout.addEventListener("click", handleLogout);
@@ -536,8 +536,15 @@ function loadPatients() {
         const cached = localStorage.getItem("care_passport_patients");
         if (cached) {
             patients = JSON.parse(cached);
-            renderPatientList(patients);
-            updateStats(patients);
+            
+            // Filter if role === 'doctor'
+            let filtered = patients;
+            if (session && session.role === 'doctor' && session.doctorName) {
+                filtered = patients.filter(p => p.assignedDoctor === session.doctorName);
+            }
+            
+            renderPatientList(filtered);
+            updateStats(filtered);
         } else {
             renderPatientList([]);
         }
@@ -549,8 +556,15 @@ function loadPatients() {
                 patients = data;
                 // Cache locally for offline use
                 localStorage.setItem("care_passport_patients", JSON.stringify(patients));
-                renderPatientList(patients);
-                updateStats(patients);
+                
+                // Filter if role === 'doctor'
+                let filtered = patients;
+                if (session && session.role === 'doctor' && session.doctorName) {
+                    filtered = patients.filter(p => p.assignedDoctor === session.doctorName);
+                }
+                
+                renderPatientList(filtered);
+                updateStats(filtered);
                 
                 // Keep selection if patient was selected
                 if (currentPatient) {
@@ -1862,6 +1876,7 @@ function handleRegistration(e) {
     const dob = document.getElementById("reg-dob").value;
     const nationality = document.getElementById("reg-nationality").value || "Not Specified";
     const blood = document.getElementById("reg-blood").value;
+    const doctor = document.getElementById("reg-doctor").value;
     
     // Select languages array checkbox values
     const langs = [];
@@ -1886,7 +1901,8 @@ function handleRegistration(e) {
         medications: [],
         immunizations: [],
         emergencyContact: emergency,
-        timeline: []
+        timeline: [],
+        assignedDoctor: doctor
     };
 
     if (isOffline) {
@@ -1912,8 +1928,7 @@ function handleRegistration(e) {
         
         closeModal(document.getElementById("register-modal"));
         document.getElementById("register-worker-form").reset();
-        renderPatientList(patients);
-        updateStats(patients);
+        loadPatients();
         selectPatient(patientId);
         showToast(`Registered (Offline Cache)! User: ${generatedUser} | Pass: ${generatedPass}`, 8000);
     } else {
@@ -1928,8 +1943,7 @@ function handleRegistration(e) {
             closeModal(document.getElementById("register-modal"));
             document.getElementById("register-worker-form").reset();
             patients.push(savedPatient);
-            renderPatientList(patients);
-            updateStats(patients);
+            loadPatients();
             selectPatient(savedPatient.id);
             showToast(`Registered successfully! User: ${savedPatient.username} | Pass: ${savedPatient.password}`, 8000);
         })
@@ -2294,6 +2308,7 @@ function handleSelfRegistration(e) {
     const dob = document.getElementById("self-reg-dob").value;
     const nationality = document.getElementById("self-reg-nationality").value || "Not Specified";
     const language = document.getElementById("self-reg-lang").value;
+    const doctor = document.getElementById("self-reg-doctor").value;
     const errorMsg = document.getElementById("self-reg-error-msg");
     
     errorMsg.style.display = "none";
@@ -2311,7 +2326,8 @@ function handleSelfRegistration(e) {
         medications: [],
         immunizations: [],
         emergencyContact: { name: "", relation: "", phone: "" },
-        timeline: []
+        timeline: [],
+        assignedDoctor: doctor
     };
     
     if (isOffline) {
@@ -2390,16 +2406,16 @@ function switchLoginRole(role) {
     authRole = role;
     
     // Toggle active tab class
-    document.getElementById("tab-admin").classList.toggle("active", role === 'admin');
+    document.getElementById("tab-doctor").classList.toggle("active", role === 'doctor');
     document.getElementById("tab-patient").classList.toggle("active", role === 'patient');
     
     // Modify helper placeholders
     const usernameInput = document.getElementById("login-username");
     const usernameLabel = document.getElementById("username-label");
     
-    if (role === 'admin') {
+    if (role === 'doctor') {
         usernameLabel.textContent = "Username";
-        usernameInput.placeholder = "Enter admin username...";
+        usernameInput.placeholder = "Enter doctor username...";
     } else {
         usernameLabel.textContent = "Care ID or Patient Username";
         usernameInput.placeholder = "e.g., carlos or CP-5821-01...";
@@ -2426,12 +2442,19 @@ function handleLoginSubmit(e) {
         const cached = localStorage.getItem("care_passport_patients");
         let authenticated = false;
         let pId = "";
+        let doctorName = "";
         const usernameLower = username.toLowerCase().trim();
         
-        if (authRole === 'admin') {
-            // Hardcoded mock admin details (case-insensitive username)
-            if (usernameLower === "clinic_admin" && password === "securepass") {
+        if (authRole === 'doctor') {
+            const offlineDoctors = [
+                { username: "dr_jenkins", password: "securepass1", name: "Dr. Sarah Jenkins, MD" },
+                { username: "dr_chen", password: "securepass2", name: "Dr. Robert Chen, DO" },
+                { username: "dr_patel", password: "securepass3", name: "Dr. K. Patel, MD" }
+            ];
+            const doc = offlineDoctors.find(d => d.username === usernameLower && d.password === password);
+            if (doc) {
                 authenticated = true;
+                doctorName = doc.name;
             }
         } else {
             // Check patients list in cache
@@ -2451,7 +2474,7 @@ function handleLoginSubmit(e) {
         }
         
         if (authenticated) {
-            applyLoginSession(authRole, pId, username);
+            applyLoginSession(authRole, pId, username, doctorName);
         } else {
             errorMsg.style.display = "block";
             errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Invalid credentials (Offline verification).';
@@ -2472,7 +2495,7 @@ function handleLoginSubmit(e) {
             return res.json();
         })
         .then(data => {
-            applyLoginSession(data.role, data.patientId || "", username);
+            applyLoginSession(data.role, data.patientId || "", username, data.doctorName || "");
         })
         .catch(err => {
             console.error("Login failed", err);
@@ -2482,11 +2505,12 @@ function handleLoginSubmit(e) {
     }
 }
 
-function applyLoginSession(role, patientId, username) {
+function applyLoginSession(role, patientId, username, doctorName = "") {
     const sessionData = {
         role: role,
         patientId: patientId,
         username: username,
+        doctorName: doctorName || "",
         timestamp: Date.now()
     };
     
@@ -2504,7 +2528,7 @@ function applyLoginSession(role, patientId, username) {
     document.getElementById("login-form").reset();
     
     // Load appropriate records
-    if (role === 'admin') {
+    if (role === 'doctor') {
         // Show Welcome View
         document.getElementById("welcome-view").classList.add("active");
         document.getElementById("patient-detail-view").classList.remove("active");
@@ -2540,20 +2564,20 @@ function handleLogout() {
     
     // Reset inputs
     document.getElementById("login-form").reset();
-    switchLoginRole('admin');
+    switchLoginRole('doctor');
 }
 
 function checkSession() {
     const session = getSession();
     if (session) {
         // Authenticated session found!
-        applyLoginSession(session.role, session.patientId, session.username);
+        applyLoginSession(session.role, session.patientId, session.username, session.doctorName || "");
     } else {
         // Default login state
         document.getElementById("login-portal").classList.add("active");
         document.getElementById("app-container").style.display = "none";
         document.getElementById("btn-logout").style.display = "none";
-        switchLoginRole('admin');
+        switchLoginRole('doctor');
     }
 }
 
@@ -2628,21 +2652,32 @@ function submitVerificationRequest(langCode) {
 }
 
 function loadPendingVerifications() {
+    const session = getSession();
     if (isOffline) {
         const cached = localStorage.getItem("care_passport_verifications");
-        const list = cached ? JSON.parse(cached) : [];
+        let list = cached ? JSON.parse(cached) : [];
+        if (session && session.role === 'doctor' && session.doctorName) {
+            list = list.filter(v => v.selectedDoctor === session.doctorName);
+        }
         renderVerificationsList(list);
     } else {
         fetch('/api/verifications')
             .then(res => res.json())
             .then(data => {
                 localStorage.setItem("care_passport_verifications", JSON.stringify(data));
-                renderVerificationsList(data);
+                let list = data;
+                if (session && session.role === 'doctor' && session.doctorName) {
+                    list = data.filter(v => v.selectedDoctor === session.doctorName);
+                }
+                renderVerificationsList(list);
             })
             .catch(err => {
                 console.error("Failed to load verifications, fallback to cache", err);
                 const cached = localStorage.getItem("care_passport_verifications");
-                const list = cached ? JSON.parse(cached) : [];
+                let list = cached ? JSON.parse(cached) : [];
+                if (session && session.role === 'doctor' && session.doctorName) {
+                    list = list.filter(v => v.selectedDoctor === session.doctorName);
+                }
                 renderVerificationsList(list);
             });
     }

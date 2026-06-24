@@ -25,8 +25,8 @@
             </div>
             
             <div class="login-tabs">
-                <button type="button" class="login-tab active" id="tab-admin" data-role="admin">
-                    <i class="fa-solid fa-user-doctor"></i> Clinic Staff / Admin
+                <button type="button" class="login-tab active" id="tab-doctor" data-role="doctor">
+                    <i class="fa-solid fa-user-doctor"></i> Clinic Doctor
                 </button>
                 <button type="button" class="login-tab" id="tab-patient" data-role="patient">
                     <i class="fa-solid fa-user"></i> Worker (Patient)
@@ -98,6 +98,16 @@
                         <option value="Spanish">Español (Spanish)</option>
                         <option value="Bengali">বাংলা (Bengali)</option>
                         <option value="Haitian Creole">Kreyòl (Haitian)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="self-reg-doctor">Primary Care Doctor / Clinic Provider *</label>
+                    <select id="self-reg-doctor" required style="background-color: var(--bg-control); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 10px; padding: 10px 14px; font-size: 13.5px; outline: none; cursor: pointer; width: 100%;">
+                        <option value="">Select Doctor...</option>
+                        <option value="Dr. Sarah Jenkins, MD">Dr. Sarah Jenkins, MD</option>
+                        <option value="Dr. Robert Chen, DO">Dr. Robert Chen, DO</option>
+                        <option value="Dr. K. Patel, MD">Dr. K. Patel, MD</option>
                     </select>
                 </div>
                 
@@ -671,6 +681,16 @@
                             <label><input type="checkbox" name="reg-languages" value="Bengali"> Bengali</label>
                             <label><input type="checkbox" name="reg-languages" value="Haitian Creole"> Haitian Creole</label>
                         </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 14px;">
+                        <label for="reg-doctor">Assigned Clinic Doctor *</label>
+                        <select id="reg-doctor" required class="btn-select" style="width: 100%;">
+                            <option value="">Select Doctor...</option>
+                            <option value="Dr. Sarah Jenkins, MD">Dr. Sarah Jenkins, MD</option>
+                            <option value="Dr. Robert Chen, DO">Dr. Robert Chen, DO</option>
+                            <option value="Dr. K. Patel, MD">Dr. K. Patel, MD</option>
+                        </select>
                     </div>
 
                     <div class="modal-divider">Emergency Contact</div>
