@@ -1,8 +1,19 @@
 {
-  "admins": [
+  "doctors": [
     {
-      "username": "clinic_admin",
-      "password": "securepass"
+      "username": "dr_jenkins",
+      "password": "securepass1",
+      "name": "Dr. Sarah Jenkins, MD"
+    },
+    {
+      "username": "dr_chen",
+      "password": "securepass2",
+      "name": "Dr. Robert Chen, DO"
+    },
+    {
+      "username": "dr_patel",
+      "password": "securepass3",
+      "name": "Dr. K. Patel, MD"
     }
   ],
   "patients": [
@@ -11,6 +22,7 @@
       "username": "carlos",
       "password": "carlos123",
       "name": "Carlos Mendoza",
+      "assignedDoctor": "Dr. Sarah Jenkins, MD",
       "dateOfBirth": "1991-04-12",
       "nationality": "Mexican",
       "languages": [
@@ -60,6 +72,26 @@
         "phone": "+1 (555) 234-5678"
       },
       "timeline": [
+        {
+          "date": "2026-06-23",
+          "clinicName": "CarePassport Virtual Assistant (Refill Approved)",
+          "location": "Online Verification",
+          "reason": "Symptom Check & Refill Review: Asthma wheezing / tight chest",
+          "diagnosis": "Review of AI suggested: Albuterol HFA rescue inhaler (2 puffs as needed)",
+          "treatment": "Approved AI action: Albuterol HFA rescue inhaler (2 puffs as needed)",
+          "doctor": "Dr. Sarah Jenkins, MD",
+          "notes": "Doctor verified and signed off on this AI-suggested care plan."
+        },
+        {
+          "date": "2026-06-23",
+          "clinicName": "CarePassport Virtual Assistant (Refill Approved)",
+          "location": "Online Verification",
+          "reason": "Symptom Check & Refill Review: Asthma wheezing / tight chest",
+          "diagnosis": "Review of AI suggested: Albuterol HFA rescue inhaler (2 puffs as needed)",
+          "treatment": "Approved AI action: Albuterol HFA rescue inhaler (2 puffs as needed)",
+          "doctor": "Dr. Sarah Jenkins, MD",
+          "notes": "Doctor verified and signed off on this AI-suggested care plan."
+        },
         {
           "date": "2026-06-23",
           "clinicName": "CarePassport Virtual Assistant (Refill Approved)",
@@ -137,6 +169,7 @@
       "username": "amara",
       "password": "amara123",
       "name": "Amara Sen",
+      "assignedDoctor": "Dr. Robert Chen, DO",
       "dateOfBirth": "1998-09-25",
       "nationality": "Bangladeshi",
       "languages": [
@@ -208,6 +241,7 @@
       "username": "jean",
       "password": "jean123",
       "name": "Jean-Pierre Duval",
+      "assignedDoctor": "Dr. K. Patel, MD",
       "dateOfBirth": "1985-07-30",
       "nationality": "Haitian",
       "languages": [
@@ -279,6 +313,7 @@
       "username": "steve154",
       "password": "cp7237",
       "name": "steve",
+      "assignedDoctor": "Dr. Sarah Jenkins, MD",
       "dateOfBirth": "2026-05-04",
       "nationality": "Not Specified",
       "languages": [
@@ -316,6 +351,16 @@
       "aiSuggestion": "Albuterol HFA rescue inhaler (2 puffs as needed)",
       "selectedDoctor": "Dr. Sarah Jenkins, MD",
       "date": "2026-06-23",
+      "status": "approved"
+    },
+    {
+      "id": "V-3973-27",
+      "patientId": "CP-5821-01",
+      "patientName": "Carlos Mendoza",
+      "symptoms": "High blood sugar / thirsty",
+      "aiSuggestion": "Insulin Glargine (Lantus) / Humalog needles",
+      "selectedDoctor": "Dr. Sarah Jenkins, MD",
+      "date": "2026-06-24",
       "status": "pending"
     }
   ]

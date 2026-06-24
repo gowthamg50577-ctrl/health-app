@@ -78,8 +78,8 @@ def create_patient():
         for patient in db.get("patients", []):
             if patient.get("username", "").lower() == username:
                 return jsonify({"error": "Username already exists"}), 409
-        for admin in db.get("admins", []):
-            if admin.get("username", "").lower() == username:
+        for doctor in db.get("doctors", []):
+            if doctor.get("username", "").lower() == username:
                 return jsonify({"error": "Username already exists"}), 409
     else:
         while True:
@@ -110,7 +110,8 @@ def create_patient():
       "medications": data.get('medications', []),
       "immunizations": data.get('immunizations', []),
       "emergencyContact": data.get('emergencyContact', {"name": "", "relation": "", "phone": ""}),
-      "timeline": data.get('timeline', [])
+      "timeline": data.get('timeline', []),
+      "assignedDoctor": data.get('assignedDoctor', 'Not Specified')
     }
     
     db["patients"].append(new_patient)
@@ -130,12 +131,16 @@ def login():
         
     db = read_db()
     
-    if role == 'admin':
+    if role == 'doctor':
         username_lower = username.strip().lower()
-        for admin in db.get("admins", []):
-            if admin["username"].strip().lower() == username_lower and admin["password"] == password:
-                return jsonify({"status": "success", "role": "admin"})
-        return jsonify({"error": "Invalid admin credentials"}), 401
+        for doctor in db.get("doctors", []):
+            if doctor["username"].strip().lower() == username_lower and doctor["password"] == password:
+                return jsonify({
+                    "status": "success",
+                    "role": "doctor",
+                    "doctorName": doctor["name"]
+                })
+        return jsonify({"error": "Invalid doctor credentials"}), 401
         
     elif role == 'patient':
         username_lower = username.strip().lower()
